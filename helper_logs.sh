@@ -9,7 +9,7 @@ logk() {
     
     case $level in
         "i")
-            echo -e "\033[34m[INFO]\033[0m \033[90m$timestamp\033[0m $message"
+            echo -e "\033[36m[INFO]\033[0m \033[90m$timestamp\033[0m $message"
             ;;
         "s")
             echo -e "\033[32m[SUCCESS]\033[0m \033[90m$timestamp\033[0m $message"
@@ -26,10 +26,15 @@ logk() {
     esac
 }
 
+logs(){
+    local message="$*"
+    echo -e "$message"
+}
+
 
 # Example usage
-# logk "info" "Starting hardening script..."
-# logk "success" "System check completed successfully"
-# logk "warning" "Some settings may need manual review"
-# logk "error" "Failed to apply security policy"
+# logk "i" "Starting hardening script..."
+# logk "s" "System check completed successfully"
+# logk "w" "Some settings may need manual review"
+# logk "e" "Failed to apply security policy"
 # logk "" "Failed to apply security policy"

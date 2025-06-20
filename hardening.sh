@@ -6,8 +6,8 @@ curl -s https://raw.githubusercontent.com/f1forhelp/scripts/refs/heads/main/glob
 rm "$GLOBAL_SCRIPT"
 
 # Example usage
-logk "i" "Starting hardening script... 2"
+logk "i" ""
 logk "s" "System check completed successfully"
 logk "w" "Some settings may need manual review"
 logk "e" "Failed to apply security policy"
-logk "" "Failed to apply security policy"
+logk "" ""

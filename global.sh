@@ -9,4 +9,4 @@ curl -s https://raw.githubusercontent.com/f1forhelp/scripts/refs/heads/main/help
 . "$HELPER_LOGS"
 rm "$HELPER_LOGS" 
 
-logk "i" "v0.0.1"
+logk "i" "v0.0.2"
