@@ -49,6 +49,32 @@ create_user_with_sudo() {
     logk "s" "User setup completed for '$username'"
 }
 
+copy_ssh_key(){
+    local username="$1"
+    local ssh_key="$2"
+    
+    # Check if username is provided
+    if [[ -z "$username" ]]; then
+        logk "e" "Username is required"
+        return 1
+    fi
+    
+    # Check if ssh_key is provided
+    if [[ -z "$ssh_key" ]]; then
+        logk "e" "SSH key is required"
+        return 1
+    fi
+    
+    # Copy the ssh key to the user's home directory
+    logk "i" "Copying SSH key to user '$username'..."
+    mkdir -p "/home/$username/.ssh"
+    echo "$ssh_key" > "/home/$username/.ssh/authorized_keys"
+    chmod 600 "/home/$username/.ssh/authorized_keys"
+    chown -R "$username:$username" "/home/$username/.ssh"
+    
+    logk "s" "SSH key copied to user '$username' successfully"
+}   
+
 # Main script execution
 logk "i" "Starting hardening script..."
 
@@ -58,6 +84,10 @@ read -r username
 
 # Create user with sudo privileges
 create_user_with_sudo "$username"
+
+# Copy the ssh key to the user's home directory
+copy_ssh_key "$username" "/root/.ssh/authorized_keys"
+
 
 logk "i" "Hardening script completed"
 

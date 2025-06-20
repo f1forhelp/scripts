@@ -17,4 +17,4 @@ rm "$HELPER_USER"
 
 
 # Log the version of the script
-logk "i" "v0.0.6"
+logk "i" "v0.0.7"
