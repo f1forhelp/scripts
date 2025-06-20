@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "Starting hardening script... 1"
+echo "Starting hardening script... 2"
 # Pretty print logging function
 source <(curl -s https://raw.githubusercontent.com/f1forhelp/scripts/refs/heads/main/helper_logs.sh)
 
