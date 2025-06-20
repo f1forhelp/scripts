@@ -21,7 +21,7 @@ create_user_with_sudo() {
     else
         # Create the user
         logk "i" "Creating user '$username'..."
-        useradd -m "$username"
+        useradd -m -s /bin/bash "$username"
         
         if [[ $? -eq 0 ]]; then
             logk "s" "User '$username' created successfully"
