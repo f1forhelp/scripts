@@ -1,11 +1,11 @@
 #!/bin/bash
-
+echo "Starting hardening script... 1"
 # Pretty print logging function
-source <(curl -s https://raw.githubusercontent.com/f1forhelp/scripts/refs/heads/main/hardening.sh)
+source <(curl -s https://raw.githubusercontent.com/f1forhelp/scripts/refs/heads/main/helper_logs.sh)
 
 # Example usage
-log "info" "Starting hardening script... 1"
-log "success" "System check completed successfully"
-log "warning" "Some settings may need manual review"
-log "error" "Failed to apply security policy"
-log "" "Failed to apply security policy"
+logk "info" "Starting hardening script... 1"
+logk "success" "System check completed successfully"
+logk "warning" "Some settings may need manual review"
+logk "error" "Failed to apply security policy"
+logk "" "Failed to apply security policy"

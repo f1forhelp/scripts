@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Pretty print logging function
-log() {
+logk() {
     local level=$1
     shift
     local message="$*"
@@ -28,8 +28,8 @@ log() {
 
 
 # Example usage
-log "info" "Starting hardening script..."
-log "success" "System check completed successfully"
-log "warning" "Some settings may need manual review"
-log "error" "Failed to apply security policy"
-log "" "Failed to apply security policy"
+logk "info" "Starting hardening script..."
+logk "success" "System check completed successfully"
+logk "warning" "Some settings may need manual review"
+logk "error" "Failed to apply security policy"
+logk "" "Failed to apply security policy"
