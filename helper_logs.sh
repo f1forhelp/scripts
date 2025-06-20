@@ -38,3 +38,4 @@ loge(){
 # logk "w" "Some settings may need manual review"
 # logk "e" "Failed to apply security policy"
 # logk "" "Failed to apply security policy"
+# loge "This is a simple echo"
