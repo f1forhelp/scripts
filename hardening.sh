@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "Starting hardening script... 2"
+echo "Starting hardening script... 3"
 # Pretty print logging function
 # Download and source the helper script
 TEMP_SCRIPT=$(mktemp)
