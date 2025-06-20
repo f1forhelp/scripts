@@ -1,7 +1,11 @@
 #!/bin/bash
 echo "Starting hardening script... 2"
 # Pretty print logging function
-source <(curl -s https://raw.githubusercontent.com/f1forhelp/scripts/refs/heads/main/helper_logs.sh)
+# Download and source the helper script
+TEMP_SCRIPT=$(mktemp)
+curl -s https://raw.githubusercontent.com/f1forhelp/scripts/refs/heads/main/helper_logs.sh > "$TEMP_SCRIPT"
+source "$TEMP_SCRIPT"
+rm "$TEMP_SCRIPT"
 
 # Example usage
 logk "info" "Starting hardening script... 1"
