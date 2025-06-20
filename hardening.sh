@@ -78,12 +78,19 @@ copy_ssh_key(){
 
 
 change_sshd_config(){
-    append_line_to_end "/etc/ssh/sshd_config" "PermitRootLogin no"
-    append_line_to_end "/etc/ssh/sshd_config" "PasswordAuthentication no"
-    append_line_to_end "/etc/ssh/sshd_config" "PubkeyAuthentication yes"
-    append_line_to_end "/etc/ssh/sshd_config" "PermitUserEnvironment no"
-    append_line_to_end "/etc/ssh/sshd_config" "PermitTunnel no"
+    append_line_to_start "/etc/ssh/sshd_config" "PermitRootLogin no"
+    append_line_to_start "/etc/ssh/sshd_config" "PasswordAuthentication no"
+    append_line_to_start "/etc/ssh/sshd_config" "PubkeyAuthentication yes"
+    append_line_to_start "/etc/ssh/sshd_config" "PermitUserEnvironment no"
+    append_line_to_start "/etc/ssh/sshd_config" "PermitTunnel no"
     systemctl restart sshd
+    logk "i" "SSHD config changed successfully"
+    sshd -T | grep permitrootlogin
+    sshd -T | grep passwordauthentication
+    sshd -T | grep pubkeyauthentication
+    sshd -T | grep permituserenvironment
+    sshd -T | grep permittunnel
+    logk "i" "Verify the sshd config above"
 }
 
 
