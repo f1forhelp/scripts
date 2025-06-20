@@ -15,6 +15,12 @@ curl -s https://raw.githubusercontent.com/f1forhelp/scripts/refs/heads/main/help
 . "$HELPER_USER"
 rm "$HELPER_USER" 
 
+# Download and source the helper script
+HELPER_FILE=$(mktemp)
+curl -s https://raw.githubusercontent.com/f1forhelp/scripts/refs/heads/main/helper_file.sh > "$HELPER_FILE"
+. "$HELPER_FILE"
+rm "$HELPER_FILE" 
+
 
 # Log the version of the script
-logk "i" "v0.0.8"
+logk "i" "v0.0.10"

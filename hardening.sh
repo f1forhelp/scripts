@@ -18,6 +18,7 @@ create_user_with_sudo() {
     # Check if user already exists
     if id "$username" &>/dev/null; then
         logk "w" "User '$username' already exists"
+        return 0
     else
         # Create the user
         logk "i" "Creating user '$username'..."
@@ -73,7 +74,19 @@ copy_ssh_key(){
     chown -R "$username:$username" "/home/$username/.ssh"
     
     logk "s" "SSH key copied to user '$username' successfully"
-}   
+}
+
+
+change_sshd_config(){
+    append_line_to_end "/etc/ssh/sshd_config" "PermitRootLogin no"
+    append_line_to_end "/etc/ssh/sshd_config" "PasswordAuthentication no"
+    append_line_to_end "/etc/ssh/sshd_config" "PubkeyAuthentication yes"
+    append_line_to_end "/etc/ssh/sshd_config" "PermitUserEnvironment no"
+    append_line_to_end "/etc/ssh/sshd_config" "PermitTunnel no"
+    systemctl restart sshd
+}
+
+
 
 # Main script execution
 logk "i" "Starting hardening script..."
@@ -87,6 +100,9 @@ create_user_with_sudo "$username"
 
 # Copy the ssh key to the user's home directory
 copy_ssh_key "$username" "/root/.ssh/authorized_keys"
+
+# Change the sshd config
+change_sshd_config
 
 
 logk "i" "Hardening script completed"
