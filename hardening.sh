@@ -68,7 +68,7 @@ copy_ssh_key(){
     # Copy the ssh key to the user's home directory
     logk "i" "Copying SSH key to user '$username'..."
     mkdir -p "/home/$username/.ssh"
-    echo "$ssh_key" > "/home/$username/.ssh/authorized_keys"
+    cat "$ssh_key" > "/home/$username/.ssh/authorized_keys"
     chmod 600 "/home/$username/.ssh/authorized_keys"
     chown -R "$username:$username" "/home/$username/.ssh"
     
