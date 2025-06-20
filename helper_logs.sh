@@ -26,7 +26,7 @@ logk() {
     esac
 }
 
-logs(){
+loge(){
     local message="$*"
     echo -e "$message"
 }
