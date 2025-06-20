@@ -4,7 +4,7 @@
 source <(curl -s https://raw.githubusercontent.com/f1forhelp/scripts/refs/heads/main/hardening.sh)
 
 # Example usage
-log "info" "Starting hardening script..."
+log "info" "Starting hardening script... 1"
 log "success" "System check completed successfully"
 log "warning" "Some settings may need manual review"
 log "error" "Failed to apply security policy"
