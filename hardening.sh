@@ -1,11 +1,11 @@
 #!/bin/bash
-echo "Starting hardening script... 5"
+echo "Starting hardening script... 6"
 # Pretty print logging function
 # Download and source the helper script
-TEMP_SCRIPT=$(mktemp)
-curl -s https://raw.githubusercontent.com/f1forhelp/scripts/refs/heads/main/global.sh > "$TEMP_SCRIPT"
-. "$TEMP_SCRIPT"
-rm "$TEMP_SCRIPT"
+GLOBAL_SCRIPT=$(mktemp)
+curl -s https://raw.githubusercontent.com/f1forhelp/scripts/refs/heads/main/global.sh > "$GLOBAL_SCRIPT"
+. "$GLOBAL_SCRIPT"
+rm "$GLOBAL_SCRIPT"
 
 # Example usage
 logk "info" "Starting hardening script... 1"
