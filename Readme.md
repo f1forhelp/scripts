@@ -1,2 +1,2 @@
 # For server hardening
-curl -fsSL "https://raw.githubusercontent.com/f1forhelp/scripts/refs/heads/main/hardening.sh" -o hardening.sh && chmod +x hardening.sh && ./hardening.sh
+curl -fsSL "https://raw.githubusercontent.com/f1forhelp/scripts/refs/heads/main/script_hardening.sh" -o script_hardening.sh && chmod +x script_hardening.sh && ./script_hardening.sh

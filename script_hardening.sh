@@ -97,7 +97,8 @@ change_sshd_config(){
     sshd -T | grep pubkeyauthentication
     sshd -T | grep permituserenvironment
     sshd -T | grep permittunnel
-    logk "i" "Verify the sshd config above"
+    logk "i" "Verify the sshd config above and press any key to continue"
+    read -n 1 -s
 }
 
 
