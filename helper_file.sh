@@ -91,7 +91,7 @@ append_line_to_start() {
     sudo cat "$file_path" >> "$temp_file"
     
     # Replace the original file with the temp file
-    if mv "$temp_file" "$file_path"; then
+    if sudo mv "$temp_file" "$file_path"; then
         echo "Successfully appended line to beginning of: $file_path"
         return 0
     else
