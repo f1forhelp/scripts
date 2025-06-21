@@ -120,10 +120,10 @@ system_update(){
     sudo apt-get autoremove -y
 }
 
-script_hardening(){
+script_hardening_one(){
  
     # Main script execution
-    logk "i" "Starting hardening script..."
+    logk "i" "Starting hardening script one..."
 
     # Get username from user input
     logk "i" "Enter the username to create:"
@@ -138,6 +138,15 @@ script_hardening(){
     # Switch to user
     switch_to_user "$username"
 
+
+
+    logk "i" "Hardening script completed"
+   
+}
+
+script_hardening_two(){
+    logk "i" "Starting hardening script two..."
+
     # Update system
     system_update
 
@@ -150,6 +159,6 @@ script_hardening(){
     # Install ufw
     script_firewall
 
-    logk "i" "Hardening script completed"
+    logk "i" "Hardening script two completed"
    
 }

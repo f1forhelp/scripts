@@ -1,6 +1,6 @@
 #!/bin/bash
 
-readonly VERSION="0.0.17"
+readonly VERSION="0.0.18"
 
 # Download and source the helper script
 HELPER_LOGS=$(mktemp)
@@ -34,12 +34,14 @@ rm "$HARDENING_SCRIPT"
 logk "s" "v$VERSION"
 loge ""
 
-logk "i" "Select below options"
-loge "1. Firewall"
-loge "2. Hardening"
+logk "i" "Select below options (Remember to run as non root user except Hardening One)"
+loge "1. Hardening One"
+loge "2. Hardening Two"
+loge "3. Firewall"
 read -p "Enter the option: " option
 
 case $option in
-    1) script_firewall ;;
-    2) script_hardening ;;
+    1) script_hardening_one ;;
+    2) script_hardening_two ;;
+    3) script_firewall ;;
 esac
