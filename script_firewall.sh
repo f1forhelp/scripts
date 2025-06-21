@@ -25,13 +25,25 @@ allow_default_incoming_and_outgoing() {
 }
 
 allow_ssh(){
-    logk "i" "Allowing ssh"
-    sudo ufw allow ssh
+    loge ""
+    logk "i" "Enter the port number for ssh or press enter to use default (22)"
+    read -r ssh_port
+    if [ -z "$ssh_port" ]; then
+        ssh_port=22
+    fi
+    logk "i" "Allowing ssh on port $ssh_port"
+    sudo ufw allow $ssh_port/tcp
 }
 
 allow_postgresql(){
-    logk "i" "Allowing postgresql"
-    sudo ufw allow 5432/tcp
+    loge ""
+    logk "i" "Enter the port number for postgresql or press enter to use default (5432)"
+    read -r postgresql_port
+    if [ -z "$postgresql_port" ]; then
+        postgresql_port=5432
+    fi
+    logk "i" "Allowing postgresql on port $postgresql_port"
+    sudo ufw allow $postgresql_port/tcp
 }
 
 disable_default_incoming() {
@@ -50,13 +62,25 @@ disable_default_incoming_and_outgoing() {
 }
 
 disable_ssh() {
-    logk "i" "Disabling ssh"
-    sudo ufw delete allow ssh
+    loge ""
+    logk "i" "Enter the port number for ssh or press enter to use default (22)"
+    read -r ssh_port
+    if [ -z "$ssh_port" ]; then
+        ssh_port=22
+    fi
+    logk "i" "Disabling ssh on port $ssh_port"
+    sudo ufw delete allow $ssh_port/tcp
 }
 
 disable_postgresql() {
-    logk "i" "Disabling postgresql"
-    sudo ufw delete allow 5432/tcp
+    loge ""
+    logk "i" "Enter the port number for postgresql or press enter to use default (5432)"
+    read -r postgresql_port
+    if [ -z "$postgresql_port" ]; then
+        postgresql_port=5432
+    fi
+    logk "i" "Disabling postgresql on port $postgresql_port"
+    sudo ufw delete allow $postgresql_port/tcp
 }
 
 reload_ufw() {

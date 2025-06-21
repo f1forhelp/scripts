@@ -73,17 +73,27 @@ copy_ssh_key(){
 
 
 change_sshd_config(){
+    logk "i" "SSHD config change"
+    read -p "Enter the port number for ssh or press enter to use default (22): " ssh_port
+    if [ -z "$ssh_port" ]; then
+        ssh_port=22
+    fi
+
+
+    loge ""
     logk "i" "SSHD config before change"
     sudo sshd -T | grep permitrootlogin
     sudo sshd -T | grep passwordauthentication
     sudo sshd -T | grep pubkeyauthentication
     sudo sshd -T | grep permituserenvironment
     sudo sshd -T | grep permittunnel
+    sudo sshd -T | grep port
     append_line_to_start "/etc/ssh/sshd_config" "PermitRootLogin no"
     append_line_to_start "/etc/ssh/sshd_config" "PasswordAuthentication no"
     append_line_to_start "/etc/ssh/sshd_config" "PubkeyAuthentication yes"
     append_line_to_start "/etc/ssh/sshd_config" "PermitUserEnvironment no"
     append_line_to_start "/etc/ssh/sshd_config" "PermitTunnel no"
+    append_line_to_start "/etc/ssh/sshd_config" "Port $ssh_port"
     sudo systemctl restart sshd
     loge ""
     logk "i" "SSHD config after change"
@@ -92,6 +102,7 @@ change_sshd_config(){
     sudo sshd -T | grep pubkeyauthentication
     sudo sshd -T | grep permituserenvironment
     sudo sshd -T | grep permittunnel
+    sudo sshd -T | grep port
     logk "i" "Verify the sshd config above and press any key to continue"
     read -n 1 -s
 }
