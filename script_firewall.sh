@@ -1,9 +1,4 @@
 #!/bin/bash
-# Download and source the global script
-GLOBAL_SCRIPT=$(mktemp)
-curl -s https://raw.githubusercontent.com/f1forhelp/scripts/refs/heads/main/global.sh > "$GLOBAL_SCRIPT"
-. "$GLOBAL_SCRIPT"
-rm "$GLOBAL_SCRIPT"
 
 # ---- Available Options ----
 fresh_install() {
@@ -92,7 +87,7 @@ enable_ufw() {
     ufw_status
 }
 
-ufw_options() {
+script_firewall() {
     logk "i" "Select the option for ufw"
     loge "1. Fresh System install"
     loge "2. Allow default incoming"
@@ -128,12 +123,5 @@ ufw_options() {
     esac
     
 }
-
-
-
-
-
-# Main script execution
-ufw_options
 
 
