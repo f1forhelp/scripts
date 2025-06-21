@@ -126,6 +126,7 @@ ufw_options() {
         13) ufw_status ;;
         14) exit ;;
     esac
+    
 }
 
 
