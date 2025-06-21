@@ -16,12 +16,12 @@ fresh_install() {
 
 allow_default_incoming() {
     logk "i" "Allowing default incoming"
-    ufw allow incoming
+    sudo ufw allow incoming
 }
 
 allow_default_outgoing() {
     logk "i" "Allowing default outgoing"
-    ufw allow outgoing
+    sudo ufw allow outgoing
 }
 
 allow_default_incoming_and_outgoing() {
@@ -31,22 +31,22 @@ allow_default_incoming_and_outgoing() {
 
 allow_ssh(){
     logk "i" "Allowing ssh"
-    ufw allow ssh
+    sudo ufw allow ssh
 }
 
 allow_postgresql(){
     logk "i" "Allowing postgresql"
-    ufw allow 5432/tcp
+    sudo ufw allow 5432/tcp
 }
 
 disable_default_incoming() {
     logk "i" "Disabling default incoming"
-    ufw default deny incoming
+    sudo ufw default deny incoming
 }
 
 disable_default_outgoing() {
     logk "i" "Disabling default outgoing"
-    ufw default deny outgoing
+    sudo ufw default deny outgoing
 }
 
 disable_default_incoming_and_outgoing() {
@@ -56,23 +56,23 @@ disable_default_incoming_and_outgoing() {
 
 disable_ssh() {
     logk "i" "Disabling ssh"
-    ufw delete allow ssh
+    sudo ufw delete allow ssh
 }
 
 disable_postgresql() {
     logk "i" "Disabling postgresql"
-    ufw delete allow 5432/tcp
+    sudo ufw delete allow 5432/tcp
 }
 
 reload_ufw() {
     logk "i" "Reloading ufw"
-    ufw reload
+    sudo ufw reload
 }
 
 ufw_status() {
     logk "i" "Ufw status"
-    ufw status
-    systemctl status ufw
+    sudo ufw status
+    sudo systemctl status ufw
 }
 
 
@@ -80,15 +80,15 @@ ufw_status() {
 # ---- Functions ----
 install_ufw() {
     logk "i" "Installing ufw..."
-    apt-get install -y ufw
+    sudo apt-get install -y ufw
     enable_ufw
 }
 
 enable_ufw() {
     logk "i" "Enabling ufw..."
-    ufw enable
-    systemctl enable ufw
-    systemctl start ufw
+    sudo ufw enable
+    sudo systemctl enable ufw
+    sudo systemctl start ufw
     ufw_status
 }
 

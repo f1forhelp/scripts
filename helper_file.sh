@@ -35,7 +35,7 @@ append_line_to_end() {
     fi
     
     # Append the line to the file using printf to handle special characters properly
-    printf '%s\n' "$line_to_append" >> "$file_path"
+    sudo printf '%s\n' "$line_to_append" >> "$file_path"
     
     if [ $? -eq 0 ]; then
         echo "Successfully appended line to: $file_path"
@@ -85,10 +85,10 @@ append_line_to_start() {
     temp_file=$(mktemp)
     
     # Write the new line to the beginning of temp file
-    printf '%s\n' "$line_to_append" > "$temp_file"
+    sudo printf '%s\n' "$line_to_append" > "$temp_file"
     
     # Append the original file content to temp file
-    cat "$file_path" >> "$temp_file"
+    sudo cat "$file_path" >> "$temp_file"
     
     # Replace the original file with the temp file
     if mv "$temp_file" "$file_path"; then
@@ -97,7 +97,7 @@ append_line_to_start() {
     else
         echo "Error: Failed to append line to beginning of: $file_path"
         # Clean up temp file if move failed
-        rm -f "$temp_file"
+        sudo rm -f "$temp_file"
         return 1
     fi
 }

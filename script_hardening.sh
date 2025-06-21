@@ -5,6 +5,11 @@ curl -s https://raw.githubusercontent.com/f1forhelp/scripts/refs/heads/main/glob
 . "$GLOBAL_SCRIPT"
 rm "$GLOBAL_SCRIPT"
 
+FIREWALL_SCRIPT=$(mktemp)
+curl -s https://raw.githubusercontent.com/f1forhelp/scripts/refs/heads/main/script_firewall.sh > "$FIREWALL_SCRIPT"
+. "$FIREWALL_SCRIPT"
+rm "$FIREWALL_SCRIPT"
+
 # Function to create user and add to sudo group
 create_user_with_sudo() {
     local username="$1"
@@ -79,28 +84,51 @@ copy_ssh_key(){
 
 change_sshd_config(){
     logk "i" "SSHD config before change"
-    sshd -T | grep permitrootlogin
-    sshd -T | grep passwordauthentication
-    sshd -T | grep pubkeyauthentication
-    sshd -T | grep permituserenvironment
-    sshd -T | grep permittunnel
+    sudo sshd -T | grep permitrootlogin
+    sudo sshd -T | grep passwordauthentication
+    sudo sshd -T | grep pubkeyauthentication
+    sudo sshd -T | grep permituserenvironment
+    sudo sshd -T | grep permittunnel
     append_line_to_start "/etc/ssh/sshd_config" "PermitRootLogin no"
     append_line_to_start "/etc/ssh/sshd_config" "PasswordAuthentication no"
     append_line_to_start "/etc/ssh/sshd_config" "PubkeyAuthentication yes"
     append_line_to_start "/etc/ssh/sshd_config" "PermitUserEnvironment no"
     append_line_to_start "/etc/ssh/sshd_config" "PermitTunnel no"
-    systemctl restart sshd
+    sudo systemctl restart sshd
     loge ""
     logk "i" "SSHD config after change"
-    sshd -T | grep permitrootlogin
-    sshd -T | grep passwordauthentication
-    sshd -T | grep pubkeyauthentication
-    sshd -T | grep permituserenvironment
-    sshd -T | grep permittunnel
+    sudo sshd -T | grep permitrootlogin
+    sudo sshd -T | grep passwordauthentication
+    sudo sshd -T | grep pubkeyauthentication
+    sudo sshd -T | grep permituserenvironment
+    sudo sshd -T | grep permittunnel
     logk "i" "Verify the sshd config above and press any key to continue"
     read -n 1 -s
 }
 
+install_fail2ban(){
+    logk "i" "Installing fail2ban..."
+    sudo apt-get install -y fail2ban
+    sudo systemctl enable fail2ban
+    sudo systemctl start fail2ban
+    sudo systemctl status fail2ban
+    logk "i" "Fail2ban installed and enabled"
+}
+
+
+switch_to_user(){
+    local username="$1"
+    logk "i" "Switching to user '$username'..."
+    sudo su - "$username"
+}
+
+system_update(){
+    logk "i" "Updating system..."
+    sudo apt-get update
+    sudo apt-get upgrade -y
+    sudo apt-get dist-upgrade -y
+    sudo apt-get autoremove -y
+}
 
 
 # Main script execution
@@ -116,8 +144,22 @@ create_user_with_sudo "$username"
 # Copy the ssh key to the user's home directory
 copy_ssh_key "$username" "/root/.ssh/authorized_keys"
 
+# Switch to user
+switch_to_user "$username"
+
+# Update system
+system_update
+
 # Change the sshd config
 change_sshd_config
+
+
+# Install fail2ban
+install_fail2ban
+
+# Install ufw
+ufw_options
+
 
 
 logk "i" "Hardening script completed"

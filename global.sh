@@ -23,4 +23,4 @@ rm "$HELPER_FILE"
 
 
 # Log the version of the script
-logk "i" "v0.0.14"
+logk "i" "v0.0.15"
