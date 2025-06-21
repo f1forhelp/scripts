@@ -10,7 +10,6 @@ fresh_install() {
     install_ufw
     disable_default_incoming_and_outgoing
     allow_ssh
-    enable_ufw
     reload_ufw
     ufw_status
 }
@@ -108,10 +107,25 @@ ufw_options() {
     loge "11. Disable postgresql"
     loge "12. Reload ufw"
     loge "13. Ufw status"
-    loge "13. Exit"
+    loge "14. Exit"
 
     read -p "Enter the option: " option
-    # case $option in
+    case $option in
+        1) fresh_install ;;
+        2) allow_default_incoming ;;
+        3) allow_default_outgoing ;;
+        4) allow_default_incoming_and_outgoing ;;
+        5) allow_ssh ;;
+        6) allow_postgresql ;;
+        7) disable_default_incoming ;;
+        8) disable_default_outgoing ;;
+        9) disable_default_incoming_and_outgoing ;;
+        10) disable_ssh ;;
+        11) disable_postgresql ;;
+        12) reload_ufw ;;
+        13) ufw_status ;;
+        14) exit ;;
+    esac
 }
 
 
