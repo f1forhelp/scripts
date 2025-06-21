@@ -1,5 +1,7 @@
 #!/bin/bash
 
+readonly VERSION="0.0.17"
+
 # Download and source the helper script
 HELPER_LOGS=$(mktemp)
 curl -s https://raw.githubusercontent.com/f1forhelp/scripts/refs/heads/main/helper_logs.sh > "$HELPER_LOGS"
@@ -19,13 +21,6 @@ curl -s https://raw.githubusercontent.com/f1forhelp/scripts/refs/heads/main/help
 rm "$HELPER_FILE" 
 
 
-# Download and source the global script
-GLOBAL_SCRIPT=$(mktemp)
-curl -s https://raw.githubusercontent.com/f1forhelp/scripts/refs/heads/main/global.sh > "$GLOBAL_SCRIPT"
-. "$GLOBAL_SCRIPT"
-rm "$GLOBAL_SCRIPT"
-
-
 FIREWALL_SCRIPT=$(mktemp)
 curl -s https://raw.githubusercontent.com/f1forhelp/scripts/refs/heads/main/script_firewall.sh > "$FIREWALL_SCRIPT"
 . "$FIREWALL_SCRIPT"
@@ -36,7 +31,7 @@ curl -s https://raw.githubusercontent.com/f1forhelp/scripts/refs/heads/main/scri
 . "$HARDENING_SCRIPT"
 rm "$HARDENING_SCRIPT"
 
-logk "s" "v0.0.16"
+logk "s" "v$VERSION"
 loge ""
 
 logk "i" "Select below options"
