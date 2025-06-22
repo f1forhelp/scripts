@@ -106,8 +106,9 @@ install_ufw() {
 enable_ufw() {
     logk "i" "Enabling ufw..."
     sudo ufw enable
-    sudo systemctl enable ufw
-    sudo systemctl start ufw
+    # sudo systemctl enable ufw
+    # sudo systemctl start ufw
+    sudo systemctl enable --now ufw
     ufw_status
 }
 

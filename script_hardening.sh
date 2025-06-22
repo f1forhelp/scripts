@@ -110,8 +110,9 @@ change_sshd_config(){
 install_fail2ban(){
     logk "i" "Installing fail2ban..."
     sudo apt-get install -y fail2ban
-    sudo systemctl enable fail2ban
-    sudo systemctl start fail2ban
+    # sudo systemctl enable fail2ban
+    # sudo systemctl start fail2ban
+    sudo systemctl enable --now fail2ban
     sudo systemctl status fail2ban
     logk "i" "Fail2ban installed and enabled"
 }
