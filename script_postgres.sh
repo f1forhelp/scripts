@@ -12,11 +12,24 @@ install_postgres-v17() {
     sudo apt-get install -y postgresql-17
     logk "i" "Postgres-v17 installed"
     enable_postgres-v17
+    configure_postgres-v17
 }
 
 uninstall_postgres-v17() {
     # TODO: Implement uninstall_postgres-v17
 }
+
+
+
+# ------ Functions ------
+
+enable_postgres-v17() {
+    logk "i" "Enabling postgres-v17..."
+    sudo systemctl enable --now postgresql@17-main
+    sudo systemctl status postgresql@17-main
+    logk "i" "Postgres-v17 enabled"
+}
+
 
 configure_postgres-v17() {
     logk "i" "Configuring postgres-v17..."
@@ -30,18 +43,6 @@ configure_postgres-v17() {
     sudo sed -i 's/#listen_addresses = 'localhost'/listen_addresses = '*'/' "$configPgConfPathPG17"
     logk "i" "Postgres-v17 configured"
 }
-
-# ------ Functions ------
-
-enable_postgres-v17() {
-    logk "i" "Enabling postgres-v17..."
-    sudo systemctl enable --now postgresql@17-main
-    sudo systemctl status postgresql@17-main
-    logk "i" "Postgres-v17 enabled"
-}
-
-
-
 
 # ------ Script ------
 script_postgres() {
