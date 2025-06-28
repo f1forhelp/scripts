@@ -15,8 +15,8 @@ install_postgres-v17() {
     configure_postgres-v17
 }
 
+# TODO: Implement uninstall_postgres-v17
 uninstall_postgres-v17() {
-    # TODO: Implement uninstall_postgres-v17
 }
 
 
