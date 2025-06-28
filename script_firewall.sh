@@ -4,6 +4,7 @@
 fresh_install() {
     install_ufw
     disable_default_incoming_and_outgoing
+    allow_default_outgoing
     allow_ssh
     reload_ufw
     ufw_status
@@ -11,12 +12,12 @@ fresh_install() {
 
 allow_default_incoming() {
     logk "i" "Allowing default incoming"
-    sudo ufw allow incoming
+    sudo ufw default allow incoming
 }
 
 allow_default_outgoing() {
     logk "i" "Allowing default outgoing"
-    sudo ufw allow outgoing
+    sudo ufw default allow outgoing
 }
 
 allow_default_incoming_and_outgoing() {
