@@ -20,18 +20,6 @@ uninstall_postgres-v17() {
     logk "i" "TODO: Uninstalling postgres-v17..."
 }
 
-
-
-# ------ Functions ------
-
-enable_postgres-v17() {
-    logk "i" "Enabling postgres-v17..."
-    sudo systemctl enable --now postgresql@17-main
-    sudo systemctl status postgresql@17-main
-    logk "i" "Postgres-v17 enabled"
-}
-
-
 configure_postgres-v17-single-node() {
     logk "i" "Configuring postgres-v17..."
     logk "i" "Backing up pg_hba.conf..."
@@ -39,9 +27,9 @@ configure_postgres-v17-single-node() {
     logk "i" "Backing up postgresql.conf..."
     sudo cp "$configPgConfPathPG17" "$configPgConfPathPG17.bak"
     logk "i" "Configuring pg_hba.conf..."
-    # sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'postgres';"
+    append_line_to_end "$configPgHbaPathPG17" "host    all             all             0.0.0.0/0               md5"
     logk "i" "Configuring postgresql.conf..."
-    # sudo sed -i 's/#listen_addresses = 'localhost'/listen_addresses = '*'/' "$configPgConfPathPG17"
+    append_line_to_start "$configPgConfPathPG17" "listen_addresses = '*'"
     logk "i" "Postgres-v17 configured"
 }
 
@@ -52,6 +40,15 @@ reset_postgres-v17-config() {
     sudo rm -rf /var/lib/postgresql/17/main
     logk "i" "Postgres-v17 reset"
 }
+
+# ------ Functions ------
+enable_postgres-v17() {
+    logk "i" "Enabling postgres-v17..."
+    sudo systemctl enable --now postgresql@17-main
+    sudo systemctl status postgresql@17-main
+    logk "i" "Postgres-v17 enabled"
+}
+
 
 # ------ Script ------
 script_postgres() {
