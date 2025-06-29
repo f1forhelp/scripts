@@ -34,6 +34,7 @@ allow_ssh(){
     fi
     logk "i" "Allowing ssh on port $ssh_port"
     sudo ufw allow $ssh_port/tcp
+    reload_ufw
 }
 
 allow_postgresql(){

@@ -9,6 +9,12 @@ curl -s https://raw.githubusercontent.com/f1forhelp/scripts/refs/heads/main/help
 rm "$HELPER_LOGS" 
 
 # Download and source the helper script
+HELPER_IP=$(mktemp)
+curl -s https://raw.githubusercontent.com/f1forhelp/scripts/refs/heads/main/helper_ip.sh > "$HELPER_IP"
+. "$HELPER_IP"
+rm "$HELPER_IP" 
+
+# Download and source the helper script
 HELPER_USER=$(mktemp)
 curl -s https://raw.githubusercontent.com/f1forhelp/scripts/refs/heads/main/helper_user.sh > "$HELPER_USER"
 . "$HELPER_USER"
