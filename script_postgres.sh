@@ -1,3 +1,4 @@
+#!/bin/bash
 readonly configRootPathPG17="/etc/postgresql/17/main"
 readonly configPgHbaPathPG17="$configRootPathPG17/pg_hba.conf"
 readonly configPgConfPathPG17="$configRootPathPG17/postgresql.conf"
@@ -12,11 +13,11 @@ install_postgres-v17() {
     sudo apt-get install -y postgresql-17
     logk "i" "Postgres-v17 installed"
     enable_postgres-v17
-    configure_postgres-v17
 }
 
 # TODO: Implement uninstall_postgres-v17
 uninstall_postgres-v17() {
+    logk "i" "TODO: Uninstalling postgres-v17..."
 }
 
 
@@ -31,7 +32,7 @@ enable_postgres-v17() {
 }
 
 
-configure_postgres-v17() {
+configure_postgres-v17-single-node() {
     logk "i" "Configuring postgres-v17..."
     logk "i" "Backing up pg_hba.conf..."
     sudo cp "$configPgHbaPathPG17" "$configPgHbaPathPG17.bak"
@@ -44,15 +45,27 @@ configure_postgres-v17() {
     logk "i" "Postgres-v17 configured"
 }
 
+reset_postgres-v17-config() {
+    logk "i" "Resetting postgres-v17..."
+    sudo systemctl stop postgresql@17-main
+    sudo systemctl disable postgresql@17-main
+    sudo rm -rf /var/lib/postgresql/17/main
+    logk "i" "Postgres-v17 reset"
+}
+
 # ------ Script ------
 script_postgres() {
     logk "i" "Select the option for postgres"
     loge "1. Install postgres-v17"
     loge "2. Uninstall postgres-v17"
+    loge "3. Configure postgres-v17-single-node"
+    loge "4. Reset postgres-v17-config"
     read -p "Enter your choice: " choice
     case $choice in
         1) install_postgres-v17 ;;
         2) uninstall_postgres-v17 ;;
+        3) configure_postgres-v17-single-node ;;
+        4) reset_postgres-v17-config ;;
         *) logk "e" "Invalid choice" ;;
     esac
 }
