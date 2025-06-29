@@ -39,9 +39,9 @@ configure_postgres-v17-single-node() {
     logk "i" "Backing up postgresql.conf..."
     sudo cp "$configPgConfPathPG17" "$configPgConfPathPG17.bak"
     logk "i" "Configuring pg_hba.conf..."
-    sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'postgres';"
+    # sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'postgres';"
     logk "i" "Configuring postgresql.conf..."
-    sudo sed -i 's/#listen_addresses = 'localhost'/listen_addresses = '*'/' "$configPgConfPathPG17"
+    # sudo sed -i 's/#listen_addresses = 'localhost'/listen_addresses = '*'/' "$configPgConfPathPG17"
     logk "i" "Postgres-v17 configured"
 }
 

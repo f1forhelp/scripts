@@ -1,6 +1,6 @@
 #!/bin/bash
 
-readonly VERSION="0.0.25"
+readonly VERSION="0.0.26"   
 
 # Download and source the helper script
 HELPER_LOGS=$(mktemp)
