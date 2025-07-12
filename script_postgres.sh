@@ -70,12 +70,14 @@ script_postgres() {
     loge "2. Uninstall postgres-v17"
     loge "3. Configure postgres-v17"
     loge "4. Reset postgres-v17-config"
+    loge "5. Update system"
     read -p "Enter your choice: " choice
     case $choice in
         1) install_postgres-v17 ;;
         2) uninstall_postgres-v17 ;;
         3) configure_postgres-v17 ;;
         4) reset_postgres-v17-config ;;
+        5) script_system_update ;;
         *) logk "e" "Invalid choice" ;;
     esac
 }

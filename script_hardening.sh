@@ -174,3 +174,8 @@ script_hardening_two(){
     logk "i" "Hardening script two completed"
    
 }
+
+script_system_update(){
+    logk "i" "Updating system..."
+    system_update
+}
