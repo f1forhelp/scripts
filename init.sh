@@ -1,6 +1,6 @@
 #!/bin/bash
 
-readonly VERSION="0.0.28"   
+readonly VERSION="0.0.29"   
 
 # Download and source the helper script
 HELPER_LOGS=$(mktemp)
@@ -43,19 +43,26 @@ curl -s https://raw.githubusercontent.com/f1forhelp/scripts/refs/heads/main/scri
 . "$POSTGRES_SCRIPT"
 rm "$POSTGRES_SCRIPT"
 
+NETBIRD_SCRIPT=$(mktemp)
+curl -s https://raw.githubusercontent.com/f1forhelp/scripts/refs/heads/main/script_netbird.sh > "$NETBIRD_SCRIPT"
+. "$NETBIRD_SCRIPT"
+rm "$NETBIRD_SCRIPT"
+
 logk "s" "v$VERSION"
 loge ""
 
 logk "i" "Select below options (Remember to run as non root user except Hardening One)"
 loge "1. Hardening One"
 loge "2. Hardening Two"
-loge "3. Firewall"
-loge "4. Postgres"
+loge "3. Netbird"
+loge "4. Firewall"
+loge "5. Postgres"
 read -p "Enter the option: " option
 
 case $option in
     1) script_hardening_one ;;
     2) script_hardening_two ;;
-    3) script_firewall ;;
-    4) script_postgres ;;
+    3) script_netbird ;;
+    4) script_firewall ;;
+    5) script_postgres ;;
 esac
