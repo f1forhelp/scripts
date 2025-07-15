@@ -105,6 +105,10 @@ change_sshd_config(){
     sudo sshd -T | grep port
     logk "i" "Verify the sshd config above and press any key to continue"
     read -n 1 -s
+    systemctl daemon-reload
+    systemctl restart sshd
+    # For digital ocean droplet agent
+    systemctl restart droplet-agent.service
 }
 
 install_fail2ban(){
@@ -145,7 +149,7 @@ script_hardening_one(){
     create_user_with_sudo "$username"
 
     # Copy the ssh key to the user's home directory
-    copy_ssh_key "$username" "/root/.ssh/authorized_keys"
+    # copy_ssh_key "$username" "/root/.ssh/authorized_keys"
 
     # Switch to user
     switch_to_user "$username"

@@ -6,6 +6,8 @@ install_netbird(){
     curl -fsSL https://pkgs.netbird.io/install.sh | sh
     netbird up
     logk "i" "Netbird installed"
+    sudo systemctl enable --now netbird
+    sudo systemctl status netbird
 }
 
 install_netbird_with_ssh(){
@@ -13,6 +15,8 @@ install_netbird_with_ssh(){
     curl -fsSL https://pkgs.netbird.io/install.sh | sh
     netbird up --allow-server-ssh
     logk "i" "Netbird installed"
+    sudo systemctl enable --now netbird
+    sudo systemctl status netbird
 }
 
 script_netbird(){

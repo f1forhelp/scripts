@@ -85,6 +85,18 @@ disable_postgresql() {
     sudo ufw delete allow $postgresql_port/tcp
 }
 
+allow_tailscale() {
+    logk "i" "Allowing tailscale"
+    sudo ufw allow in on tailscale0
+    sudo ufw allow 41641/udp
+}
+
+disable_tailscale() {
+    logk "i" "Disabling tailscale"
+    sudo ufw delete allow in on tailscale0
+    sudo ufw delete allow 41641/udp
+}
+
 reload_ufw() {
     logk "i" "Reloading ufw"
     sudo ufw reload
@@ -127,9 +139,11 @@ script_firewall() {
     loge "9. Disable default incoming and outgoing"
     loge "10. Disable ssh"
     loge "11. Disable postgresql"
-    loge "12. Reload ufw"
-    loge "13. Ufw status"
-    loge "14. Exit"
+    loge "12. Allow tailscale"
+    loge "13. Disable tailscale"
+    loge "14. Reload ufw"
+    loge "15. Ufw status"
+    loge "16. Exit"
 
     read -p "Enter the option: " option
     case $option in
@@ -144,9 +158,11 @@ script_firewall() {
         9) disable_default_incoming_and_outgoing ;;
         10) disable_ssh ;;
         11) disable_postgresql ;;
-        12) reload_ufw ;;
-        13) ufw_status ;;
-        14) exit ;;
+        12) allow_tailscale ;;
+        13) disable_tailscale ;;
+        14) reload_ufw ;;
+        15) ufw_status ;;
+        16) exit ;;
     esac
     
 }
