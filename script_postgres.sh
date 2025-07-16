@@ -25,7 +25,7 @@ configure_postgres-v17() {
     backup_file "$configPgHbaPathPG17"
     backup_file "$configPgConfPathPG17"
     logk "i" "Configuring pg_hba.conf..."
-    append_line_to_end "$configPgHbaPathPG17" "host    all             all             0.0.0.0/0               md5"
+    append_line_to_end "$configPgHbaPathPG17" "host    all             all             $(get_private_ip_cidr)              md5"
     logk "i" "Configuring postgresql.conf..."
     configure_listen_addresses
     logk "i" "Postgres-v17 configured"
@@ -52,11 +52,13 @@ configure_listen_addresses() {
     loge "1. localhost"
     loge "2. publicIP"
     loge "3. privateIP"
+    loge "4. all"
     read -p "Enter your choice: " choice
     case $choice in
         1) append_line_to_start "$configPgConfPathPG17" "listen_addresses = 'localhost'" ;;
         2) append_line_to_start "$configPgConfPathPG17" "listen_addresses = '$(get_public_ip_v4)'" ;;
         3) append_line_to_start "$configPgConfPathPG17" "listen_addresses = '$(get_private_ip)'" ;;
+        4) append_line_to_start "$configPgConfPathPG17" "listen_addresses = '*'" ;;
         *) logk "e" "Invalid choice" ;;
     esac
     logk "i" "listen_addresses configured"
