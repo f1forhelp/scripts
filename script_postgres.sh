@@ -39,6 +39,19 @@ reset_postgres-v17-config() {
     logk "i" "Postgres-v17 reset"
 }
 
+hardening_postgres-v17() {
+    logk "i" "Hardening postgres-v17..."
+    read -p "Enter Db Username: " dbUsername
+    read -p "Enter Db Password: " password
+    read -p "Enter Db Name: " dbName
+    sudo -u postgres psql -c "CREATE USER $dbUsername WITH PASSWORD '$password';"
+    sudo -u postgres psql -c "CREATE DATABASE $dbName;"
+    sudo -u postgres psql -c "ALTER ROLE $dbUsername WITH SUPERUSER;"
+    sudo -u postgres psql -c "ALTER USER postgres NOLOGIN;"
+
+    logk "i" "Hardening postgres-v17 completed"
+}
+
 # ------ Functions ------
 enable_postgres-v17() {
     logk "i" "Enabling postgres-v17..."
@@ -72,13 +85,15 @@ script_postgres() {
     loge "2. Uninstall postgres-v17"
     loge "3. Configure postgres-v17"
     loge "4. Reset postgres-v17-config"
-    loge "5. Update system"
+    loge "5. Hardening postgres-v17"
+    loge "6. Update system"
     read -p "Enter your choice: " choice
     case $choice in
         1) install_postgres-v17 ;;
         2) uninstall_postgres-v17 ;;
         3) configure_postgres-v17 ;;
         4) reset_postgres-v17-config ;;
+        5) hardening_postgres-v17 ;;
         5) script_system_update ;;
         *) logk "e" "Invalid choice" ;;
     esac
