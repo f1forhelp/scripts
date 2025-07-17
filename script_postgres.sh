@@ -83,3 +83,9 @@ script_postgres() {
         *) logk "e" "Invalid choice" ;;
     esac
 }
+
+
+# Imp commands
+
+# to check cluster status
+# sudo pg_lsclusters 

@@ -39,6 +39,7 @@ append_line_to_end() {
     
     if [ $? -eq 0 ]; then
         logk "i" "Successfully appended line to: $file_path"
+        loge "Line appended: $line_to_append"
         return 0
     else
         logk "e" "Failed to append line to: $file_path"
@@ -93,6 +94,7 @@ append_line_to_start() {
     # Replace the original file with the temp file
     if sudo mv "$temp_file" "$file_path"; then
         logk "i" "Successfully appended line to beginning of: $file_path"
+        loge "Line appended: $line_to_append"
         return 0
     else
         logk "e" "Failed to append line to beginning of: $file_path"
