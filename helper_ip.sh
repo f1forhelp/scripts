@@ -11,7 +11,7 @@ get_private_ip(){
 }
 
 get_private_ip_cidr(){
-    ip addr show | grep "inet " | grep -v "127.0.0.1" | awk '{print $2}' | grep -E "^(10\.|172\.(1[6-9]|2[0-9]|3[0-1])\.|192\.168\.)" | tail -1
+    ip addr show | grep "inet " | grep -v "127.0.0.1" | awk '{print $2}' | grep -E "^(10\.|172\.(1[6-9]|2[0-9]|3[0-1])\.|192\.168\.)" | head -1
 }
 
 
