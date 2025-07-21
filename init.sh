@@ -1,6 +1,6 @@
 #!/bin/bash
 
-readonly VERSION="0.0.34"   
+readonly VERSION="0.0.35"   
 
 # Download and source the helper script
 HELPER_LOGS=$(mktemp)
@@ -57,6 +57,8 @@ loge "2. Hardening Two"
 loge "3. Netbird"
 loge "4. Firewall"
 loge "5. Postgres"
+loge "6. System Update"
+loge "7. Log Ips"
 read -p "Enter the option: " option
 
 case $option in
@@ -65,4 +67,6 @@ case $option in
     3) script_netbird ;;
     4) script_firewall ;;
     5) script_postgres ;;
+    6) system_update ;;
+    7) log_ips ;;
 esac
