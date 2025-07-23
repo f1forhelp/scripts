@@ -34,9 +34,11 @@ configure_postgres-v17() {
 
 reset_postgres-v17-config() {
     logk "i" "Resetting postgres-v17..."
-    sudo systemctl stop postgresql@17-main
-    sudo systemctl disable postgresql@17-main
-    sudo rm -rf /var/lib/postgresql/17/main
+    restore_file "$configPgHbaPathPG17"
+    restore_file "$configPgConfPathPG17"
+    # sudo systemctl stop postgresql@17-main
+    # sudo systemctl disable postgresql@17-main
+    # sudo rm -rf /var/lib/postgresql/17/main
     logk "i" "Postgres-v17 reset"
 }
 
@@ -51,6 +53,7 @@ hardening_postgres-v17() {
     sudo -u postgres psql -c "ALTER USER postgres NOLOGIN;"
 
     logk "i" "Hardening postgres-v17 completed"
+        
 }
 
 # ------ Functions ------
