@@ -29,6 +29,12 @@ configure_postgres-v17() {
     append_line_to_end "$configPgHbaPathPG17" "host    all             all             $privateIpCidr           scram-sha-256"
     logk "i" "Configuring postgresql.conf..."
     configure_listen_addresses
+    logk "i" "Setting permissions for pg_hba.conf and postgresql.conf..."
+    sudo chmod 640 $configPgHbaPathPG17
+    sudo chmod 640 $configPgConfPathPG17
+    sudo chown postgres:postgres $configPgHbaPathPG17
+    sudo chown postgres:postgres $configPgConfPathPG17
+    restart_postgres-v17
     logk "i" "Postgres-v17 configured"
 }
 
@@ -51,9 +57,8 @@ hardening_postgres-v17() {
     sudo -u postgres psql -c "CREATE DATABASE $dbName;"
     sudo -u postgres psql -c "ALTER ROLE $dbUsername WITH SUPERUSER;"
     sudo -u postgres psql -c "ALTER USER postgres NOLOGIN;"
-
-    logk "i" "Hardening postgres-v17 completed"
-        
+    restart_postgres-v17
+    logk "i" "Hardening postgres-v17 completed"       
 }
 
 # ------ Functions ------
@@ -62,6 +67,16 @@ enable_postgres-v17() {
     sudo systemctl enable --now postgresql@17-main
     sudo systemctl status postgresql@17-main
     logk "i" "Postgres-v17 enabled"
+}
+
+
+restart_postgres-v17() {
+    logk "i" "Restarting postgres-v17..."
+    sudo systemctl restart postgresql
+    sudo systemctl enable postgresql
+    sudo systemctl status postgresql
+    sudo pg_lsclusters 
+    logk "i" "Postgres-v17 restarted"
 }
 
 configure_listen_addresses() {
