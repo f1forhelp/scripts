@@ -26,7 +26,7 @@ configure_postgres-v17() {
     backup_file "$configPgConfPathPG17"
     logk "i" "Configuring pg_hba.conf..."
     read -p "Enter the private IP CIDR: " privateIpCidr
-    append_line_to_end "$configPgHbaPathPG17" "host    all             all             $privateIpCidr              md5"
+    append_line_to_end "$configPgHbaPathPG17" "host    all             all             $privateIpCidr           scram-sha-256"
     logk "i" "Configuring postgresql.conf..."
     configure_listen_addresses
     logk "i" "Postgres-v17 configured"
