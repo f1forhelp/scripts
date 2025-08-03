@@ -149,7 +149,7 @@ script_hardening_one(){
     create_user_with_sudo "$username"
 
     # Copy the ssh key to the user's home directory
-    # copy_ssh_key "$username" "/root/.ssh/authorized_keys"
+    copy_ssh_key "$username" "/root/.ssh/authorized_keys"
 
     # Switch to user
     switch_to_user "$username"
