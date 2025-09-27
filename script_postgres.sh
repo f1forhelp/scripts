@@ -1,7 +1,5 @@
 #!/bin/bash
-readonly configRootPathPG17="/etc/postgresql/17/main"
-readonly configPgHbaPathPG17="$configRootPathPG17/pg_hba.conf"
-readonly configPgConfPathPG17="$configRootPathPG17/postgresql.conf"
+
 
 
 # ------ Options ------
@@ -20,28 +18,33 @@ uninstall_postgres-v17() {
     logk "i" "TODO: Uninstalling postgres-v17..."
 }
 
-configure_postgres-v17() {
+configure_postgres-v17-master() {    
     logk "i" "Configuring postgres-v17..."
-    backup_file "$configPgHbaPathPG17"
-    backup_file "$configPgConfPathPG17"
+    backup_file "$K_CONFIG_PG_HBA_PATH_PG17"
+    backup_file "$K_CONFIG_PG_CONF_PATH_PG17"
+    remove_all_comments "$K_CONFIG_PG_HBA_PATH_PG17"
+    remove_all_comments "$K_CONFIG_PG_CONF_PATH_PG17"
     logk "i" "Configuring pg_hba.conf..."
     read -p "Enter the private IP CIDR: " privateIpCidr
-    append_line_to_end "$configPgHbaPathPG17" "host    all             all             $privateIpCidr           scram-sha-256"
+    append_line_to_end "$K_CONFIG_PG_HBA_PATH_PG17" "$K_ADDED_BY_ADMIN"
+    append_line_to_end "$K_CONFIG_PG_HBA_PATH_PG17" "host    all             all             $privateIpCidr           scram-sha-256"
+    prompt_edit_file "$K_CONFIG_PG_HBA_PATH_PG17"
     logk "i" "Configuring postgresql.conf..."
     configure_listen_addresses
+    prompt_edit_file "$K_CONFIG_PG_CONF_PATH_PG17"
     logk "i" "Setting permissions for pg_hba.conf and postgresql.conf..."
-    sudo chmod 640 $configPgHbaPathPG17
-    sudo chmod 640 $configPgConfPathPG17
-    sudo chown postgres:postgres $configPgHbaPathPG17
-    sudo chown postgres:postgres $configPgConfPathPG17
+    sudo chmod 640 "$K_CONFIG_PG_HBA_PATH_PG17"
+    sudo chmod 640 "$K_CONFIG_PG_CONF_PATH_PG17"
+    sudo chown postgres:postgres "$K_CONFIG_PG_HBA_PATH_PG17"
+    sudo chown postgres:postgres "$K_CONFIG_PG_CONF_PATH_PG17"
     restart_postgres-v17
     logk "i" "Postgres-v17 configured"
 }
 
 reset_postgres-v17-config() {
     logk "i" "Resetting postgres-v17..."
-    restore_file "$configPgHbaPathPG17"
-    restore_file "$configPgConfPathPG17"
+    restore_file "$K_CONFIG_PG_HBA_PATH_PG17"
+    restore_file "$K_CONFIG_PG_CONF_PATH_PG17"
     # sudo systemctl stop postgresql@17-main
     # sudo systemctl disable postgresql@17-main
     # sudo rm -rf /var/lib/postgresql/17/main
@@ -51,7 +54,7 @@ reset_postgres-v17-config() {
 hardening_postgres-v17() {
     logk "i" "Hardening postgres-v17..."
     read -p "Enter Db Username: " dbUsername
-    read -p "Enter Db Password: " password
+    read -s -p "Enter Db Password: " password
     read -p "Enter Db Name: " dbName
     sudo -u postgres psql -c "CREATE USER $dbUsername WITH PASSWORD '$password';"
     sudo -u postgres psql -c "CREATE DATABASE $dbName;"
@@ -86,11 +89,12 @@ configure_listen_addresses() {
     loge "3. privateIP"
     loge "4. all"
     read -p "Enter your choice: " choice
+    append_line_to_start "$K_CONFIG_PG_CONF_PATH_PG17" "$K_ADDED_BY_ADMIN"
     case $choice in
-        1) append_line_to_start "$configPgConfPathPG17" "listen_addresses = 'localhost'" ;;
-        2) append_line_to_start "$configPgConfPathPG17" "listen_addresses = '$(get_public_ip_v4)'" ;;
-        3) append_line_to_start "$configPgConfPathPG17" "listen_addresses = '$(get_private_ip)'" ;;
-        4) append_line_to_start "$configPgConfPathPG17" "listen_addresses = '*'" ;;
+        1) append_line_to_start "$K_CONFIG_PG_CONF_PATH_PG17" "listen_addresses = 'localhost'" ;;
+        2) append_line_to_start "$K_CONFIG_PG_CONF_PATH_PG17" "listen_addresses = '$(get_public_ip_v4)'" ;;
+        3) append_line_to_start "$K_CONFIG_PG_CONF_PATH_PG17" "listen_addresses = '$(get_private_ip)'" ;;
+        4) append_line_to_start "$K_CONFIG_PG_CONF_PATH_PG17" "listen_addresses = '*'" ;;
         *) logk "e" "Invalid choice" ;;
     esac
     logk "i" "listen_addresses configured"
@@ -102,7 +106,7 @@ script_postgres() {
     logk "i" "Select the option for postgres"
     loge "1. Install postgres-v17"
     loge "2. Uninstall postgres-v17"
-    loge "3. Configure postgres-v17"
+    loge "3. Configure postgres-v17-master"
     loge "4. Reset postgres-v17-config"
     loge "5. Hardening postgres-v17"
     loge "6. Update system"
@@ -110,7 +114,7 @@ script_postgres() {
     case $choice in
         1) install_postgres-v17 ;;
         2) uninstall_postgres-v17 ;;
-        3) configure_postgres-v17 ;;
+        3) configure_postgres-v17-master ;;
         4) reset_postgres-v17-config ;;
         5) hardening_postgres-v17 ;;
         5) script_system_update ;;

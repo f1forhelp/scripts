@@ -1,6 +1,12 @@
 #!/bin/bash
 
-readonly VERSION="0.0.41"   
+readonly VERSION="0.0.43"
+
+# Download and source the constants script
+CONSTANTS_SCRIPT=$(mktemp)
+curl -s https://raw.githubusercontent.com/f1forhelp/scripts/refs/heads/main/constants.sh > "$CONSTANTS_SCRIPT"
+. "$CONSTANTS_SCRIPT"
+rm "$CONSTANTS_SCRIPT"
 
 # Download and source the helper script
 HELPER_LOGS=$(mktemp)
@@ -48,6 +54,11 @@ curl -s https://raw.githubusercontent.com/f1forhelp/scripts/refs/heads/main/scri
 . "$NETBIRD_SCRIPT"
 rm "$NETBIRD_SCRIPT"
 
+DOCKER_SCRIPT=$(mktemp)
+curl -s https://raw.githubusercontent.com/f1forhelp/scripts/refs/heads/main/script_docker.sh > "$DOCKER_SCRIPT"
+. "$DOCKER_SCRIPT"
+rm "$DOCKER_SCRIPT"
+
 logk "s" "v$VERSION"
 loge ""
 
@@ -57,8 +68,9 @@ loge "2. Hardening Two"
 loge "3. Netbird"
 loge "4. Firewall"
 loge "5. Postgres"
-loge "6. System Update"
-loge "7. Log Ips"
+loge "6. Docker"
+loge "7. System Update"
+loge "8. Log Ips"
 read -p "Enter the option: " option
 
 case $option in
@@ -67,6 +79,7 @@ case $option in
     3) script_netbird ;;
     4) script_firewall ;;
     5) script_postgres ;;
-    6) system_update ;;
-    7) log_ips ;;
+    6) script_docker ;;
+    7) system_update ;;
+    8) log_ips ;;
 esac

@@ -11,36 +11,13 @@ create_user_with_sudo() {
     fi
     
     # Check if user already exists
-    if id "$username" &>/dev/null; then
-        logk "w" "User '$username' already exists"
-        return 0
-    else
-        # Create the user
-        logk "i" "Creating user '$username'..."
-        useradd -m -s /bin/bash "$username"
-        
-        if [[ $? -eq 0 ]]; then
-            logk "s" "User '$username' created successfully"
-        else
-            logk "e" "Failed to create user '$username'"
-            return 1
-        fi
-    fi
+    add_user "$username"
     
     # Add user to sudo group
-    logk "i" "Adding user '$username' to sudo group..."
-    usermod -aG sudo "$username"
-    
-    if [[ $? -eq 0 ]]; then
-        logk "s" "User '$username' added to sudo group successfully"
-    else
-        logk "e" "Failed to add user '$username' to sudo group"
-        return 1
-    fi
+    add_user_to_sudo_group "$username"
     
     # Set password for the user
-    logk "i" "Setting password for user '$username'..."
-    passwd "$username"
+    prompt_set_password "$username"
     
     logk "s" "User setup completed for '$username'"
 }

@@ -182,3 +182,90 @@ restore_file() {
         return 1
     fi
 }
+
+remove_all_comments() {
+    local file_path="$1"
+    
+    # Check if file path is provided
+    if [ -z "$file_path" ]; then
+        logk "e" "File path cannot be empty"
+        return 1
+    fi
+
+    # Check if file exists
+    if [ ! -f "$file_path" ]; then
+        logk "e" "File does not exist: $file_path"
+        return 1
+    fi
+    
+    # Remove all comments from the file (delete lines completely)
+    # But preserve lines containing K_ADDED_BY_ADMIN variable value
+    sudo sed -i "/$K_ADDED_BY_ADMIN/!{/^#.*$/d;}" "$file_path"
+    sudo sed -i "/$K_ADDED_BY_ADMIN/!{/^--.*$/d;}" "$file_path"
+    
+    if [ $? -eq 0 ]; then
+        logk "i" "Successfully removed all comments from: $file_path"
+        return 0
+    else
+        logk "e" "Failed to remove all comments from: $file_path"
+        return 1
+    fi
+}
+
+# Function to prompt user if they want to edit a file
+# Usage: prompt_edit_file <file_path>
+# Parameters:
+#   $1 - file path (required)
+prompt_edit_file() {
+    local file_path="$1"
+    local user_response
+    
+    # Check if file path is provided
+    if [ -z "$file_path" ]; then
+        logk "e" "File path cannot be empty"
+        logk "e" "Usage: prompt_edit_file <file_path>"
+        return 1
+    fi
+    
+    # Check if file exists
+    if [ ! -f "$file_path" ]; then
+        logk "e" "File does not exist: $file_path"
+        return 1
+    fi
+    
+    # Prompt user for editing the file
+    logk "i" "File: $file_path"
+    echo -n "Do you want to edit this file? (y/yes/n/no): "
+    read -r user_response
+    
+    # Convert response to lowercase for case-insensitive comparison
+    user_response=$(echo "$user_response" | tr '[:upper:]' '[:lower:]')
+    
+    # Check user response
+    case "$user_response" in
+        y|yes)
+            logk "i" "Opening file in vi editor..."
+            # Open file in vi editor
+            sudo vi "$file_path"
+            
+            # Check if vi command was successful
+            if [ $? -eq 0 ]; then
+                logk "i" "File editing completed. Continuing with script execution..."
+                return 0
+            else
+                logk "e" "Failed to open file in vi editor"
+                return 1
+            fi
+            ;;
+        n|no)
+            logk "i" "Skipping file edit. Continuing with script execution..."
+            return 0
+            ;;
+        *)
+            logk "w" "Invalid response: $user_response"
+            logk "i" "Assuming 'no' - continuing with script execution..."
+            return 0
+            ;;
+    esac
+}
+
