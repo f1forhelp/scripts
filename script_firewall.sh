@@ -48,6 +48,24 @@ allow_postgresql(){
     sudo ufw allow $postgresql_port/tcp
 }
 
+allow_swarm() {
+    logk "i" "Enter the private ip of swarm node/worker"
+    read -r swarm_ip
+    
+    # Cluster management communications
+    sudo ufw allow from $swarm_ip to any port 2377 proto tcp
+    
+    # Communication among nodes (TCP & UDP)
+    sudo ufw allow from $swarm_ip to any port 7946 proto tcp
+    sudo ufw allow from $swarm_ip to any port 7946 proto udp
+    
+    # Overlay network traffic
+    sudo ufw allow from $swarm_ip to any port 4789 proto udp
+    
+    # Optional: Docker daemon API (if using TLS)
+    # sudo ufw allow from $swarm_ip to any port 2376 proto tcp
+}
+
 disable_default_incoming() {
     logk "i" "Disabling default incoming"
     sudo ufw default deny incoming
