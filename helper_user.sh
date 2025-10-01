@@ -8,7 +8,17 @@ prompt_set_password() {
         logk "e" "Username is required"
         return 1
     fi
-
+    
+    # Prompt for password and set it
+    echo "Enter password for user '$username':"
+    passwd "$username"
+    
+    if [[ $? -eq 0 ]]; then
+        logk "s" "Password set successfully for user '$username'"
+    else
+        logk "e" "Failed to set password for user '$username'"
+        return 1
+    fi
 }
 
 add_user() {
