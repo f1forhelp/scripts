@@ -1,6 +1,6 @@
 #!/bin/bash
 
-readonly VERSION="0.0.45"
+readonly VERSION="0.0.46"
 
 # Download and source the constants script
 CONSTANTS_SCRIPT=$(mktemp)

@@ -171,6 +171,7 @@ script_firewall() {
         4) allow_default_incoming_and_outgoing ;;
         5) allow_ssh ;;
         6) allow_postgresql ;;
+        7) allow_swarm ;;
         7) disable_default_incoming ;;
         8) disable_default_outgoing ;;
         9) disable_default_incoming_and_outgoing ;;
