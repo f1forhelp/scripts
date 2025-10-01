@@ -43,6 +43,18 @@ docker_login_ghcr() {
     logk "i" "Logged in to ghcr"
 }
 
+get_join_token_worker(){
+    logk "i" "Getting join token..."
+    docker swarm join-token worker
+    logk "i" "Join token got"
+}
+
+get_join_token_manager(){
+    logk "i" "Getting join token..."
+    docker swarm join-token manager
+    logk "i" "Join token got"
+}
+
 docker_logout_ghcr() {
     logk "i" "Logging out from ghcr..."
     docker logout ghcr.io
@@ -60,6 +72,8 @@ script_docker() {
     loge "3. Promote node to manager"
     loge "4. Login to ghcr"
     loge "5. Logout from ghcr"
+    loge "6. Get join token worker"
+    loge "7. Get join token manager"
     read -p "Enter your choice: " choice
     case $choice in
         1) install_docker ;;
@@ -67,6 +81,8 @@ script_docker() {
         3) promote_node_to_manager ;;
         4) docker_login_ghcr ;;
         5) docker_logout_ghcr ;;
+        6) get_join_token_worker ;;
+        7) get_join_token_manager ;;
         *) logk "e" "Invalid choice" ;;
     esac
 }
