@@ -39,7 +39,7 @@ docker_login_ghcr() {
     logk "i" "Logging in to ghcr..."
     read -p "Enter the username: " username
     read -s -p "Enter the password: " password; echo
-    docker login ghcr.io -u $username -p-stdin $password
+    docker login ghcr.io -u $username -p $password
     logk "i" "Logged in to ghcr"
 }
 
