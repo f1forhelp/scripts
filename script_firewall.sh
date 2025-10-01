@@ -152,16 +152,17 @@ script_firewall() {
     loge "4. Allow default incoming and outgoing"
     loge "5. Allow ssh"
     loge "6. Allow postgresql"
-    loge "7. Disable default incoming"
-    loge "8. Disable default outgoing"
-    loge "9. Disable default incoming and outgoing"
-    loge "10. Disable ssh"
-    loge "11. Disable postgresql"
-    loge "12. Allow tailscale"
-    loge "13. Disable tailscale"
-    loge "14. Reload ufw"
-    loge "15. Ufw status"
-    loge "16. Exit"
+    loge "7. Allow swarm"
+    loge "8. Disable default incoming"
+    loge "9. Disable default outgoing"
+    loge "10. Disable default incoming and outgoing"
+    loge "11. Disable ssh"
+    loge "12. Disable postgresql"
+    loge "13. Allow tailscale"
+    loge "14. Disable tailscale"
+    loge "15. Reload ufw"
+    loge "16. Ufw status"
+    loge "17. Exit"
 
     read -p "Enter the option: " option
     case $option in
@@ -172,16 +173,16 @@ script_firewall() {
         5) allow_ssh ;;
         6) allow_postgresql ;;
         7) allow_swarm ;;
-        7) disable_default_incoming ;;
-        8) disable_default_outgoing ;;
-        9) disable_default_incoming_and_outgoing ;;
-        10) disable_ssh ;;
-        11) disable_postgresql ;;
-        12) allow_tailscale ;;
-        13) disable_tailscale ;;
-        14) reload_ufw ;;
-        15) ufw_status ;;
-        16) exit ;;
+        8) disable_default_incoming ;;
+        9) disable_default_outgoing ;;
+        10) disable_default_incoming_and_outgoing ;;
+        11) disable_ssh ;;
+        12) disable_postgresql ;;
+        13) allow_tailscale ;;
+        14) disable_tailscale ;;
+        15) reload_ufw ;;
+        16) ufw_status ;;
+        17) exit ;;
     esac
     
 }
