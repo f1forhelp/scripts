@@ -24,14 +24,14 @@ install_docker() {
 advertise_leader() {
     logk "i" "Advertising leader..."
     read -p "Enter the private IP address to advertise: " private_ip
-    docker swarm init --advertise-addr $private_ip
+    sudo docker swarm init --advertise-addr $private_ip
     logk "i" "Leader advertised"
 }
 
 promote_node_to_manager() {
     logk "i" "Promoting node to manager run this command on leader node"
     read -p "Enter the hostname to promote: " hostname
-    docker node promote $hostname
+    sudo docker node promote $hostname
     logk "i" "Node promoted to manager"
 }
 
@@ -39,25 +39,25 @@ docker_login_ghcr() {
     logk "i" "Logging in to ghcr..."
     read -p "Enter the username: " username
     read -s -p "Enter the password: " password; echo
-    docker login ghcr.io -u $username -p $password
+    sudo docker login ghcr.io -u $username -p $password
     logk "i" "Logged in to ghcr"
 }
 
 get_join_token_worker(){
     logk "i" "Getting join token..."
-    docker swarm join-token worker
+    sudo docker swarm join-token worker
     logk "i" "Join token got"
 }
 
 get_join_token_manager(){
     logk "i" "Getting join token..."
-    docker swarm join-token manager
+    sudo docker swarm join-token manager
     logk "i" "Join token got"
 }
 
 docker_logout_ghcr() {
     logk "i" "Logging out from ghcr..."
-    docker logout ghcr.io
+    sudo docker logout ghcr.io
     logk "i" "Logged out from ghcr"
 }
 
